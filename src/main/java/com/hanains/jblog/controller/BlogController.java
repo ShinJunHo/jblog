@@ -17,4 +17,9 @@ public class BlogController {
 	public String main(){
 		return "/blog/blogmain";
 	}
+	
+	@RequestMapping("/blogadmin_basic")
+	public String blogadminBasic(){
+		return "/blog/blogadmin_basic";
+	}
 }

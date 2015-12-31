@@ -13,7 +13,7 @@
       </tr>
       <tr>
         <td width="100%" height="120"colspan="10" align="center">
-        <img src="images/logo.jpg" border="0"></td>
+        <img src="${pageContext.request.contextPath}/assets/images/logo.jpg" border="0"></td>
       </tr>
      </table>
      <table align="center">

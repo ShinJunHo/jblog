@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -39,13 +40,20 @@
       	<td width="190" valign="top">
       	<!-- 로그인, 관리자 메뉴, 로고, 카테고리 시작 -->
       	<table cellpadding="0" cellspacing="0">
+
+	      	<c:if test="${not empty authUser }">
+   		   		<tr><td>
+      				<a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogadmin_basic">블로그 관리</a></td></tr>
+      		</c:if>
+      		<c:if test="${empty authUser }">
       		<tr><td>
-      		<a href="loginform.jsp">로그인</a>&nbsp;&nbsp;<a href="blogadmin_basic.jsp">블로그 관리</a></td></tr>
+      				<a href="${pageContext.request.contextPath}/blog/loginform">로그인</a>&nbsp;&nbsp;
+      		</c:if>
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td><img height="80" src="${pageContext.request.contextPath}/assets/images/j2eelogo.jpg" border="0"></td></tr>
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td class="categorytitle">카테고리</td></tr>
-      		<tr><td class="categoryitem"><a class="title" href="#">자바</a></td></tr>
+      		<tr><td class="categoryitem"><a class="titlㄴe" href="#">자바</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">J2EE</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">소프트웨어 엔지니어링</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">미분류</a></td></tr>
