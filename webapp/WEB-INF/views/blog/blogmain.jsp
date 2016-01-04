@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -18,22 +21,47 @@
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td height="60">&nbsp;</td></tr>
     </table>
+    <input type="text" value="${count}"/>
     <table background="${pageContext.request.contextPath}/assets/images/kubrickbg.jpg" width="760" height="300" border="0" cellpadding="0" cellspacing="0">
       <tr><td height="10">&nbsp;</td></tr>
       <tr>
       	<td width="20">&nbsp;</td>
       	<td width="530" valign="top">
 	      	<!-- 포스트 시작 -->
+	      	<c:forEach items="${map.post}" var= "postVo">
+	      		
+	      		<table height="10" border="0" cellpadding="0" cellspacing="0">
+	      		<tr><td class="posttitle">${postVo.no }</td></tr>
+	      		<tr><td class="posttitle"><a href="${pageContext.request.contextPath}/blog/blogadmin_detail">${postVo.title}</a></td></tr>
+	      		<tr><td class="postdate">${postVo.date}</td></tr>
+	      		<tr><td class="postcontent">${ postVo.content}</td></tr>
+	      		<tr><td height="5">&nbsp;</td></tr>
+	      		
+	      		<!--  포스트에 해당하는 각각의 댓글 수 연산 -->
+	  			<c:forEach items="${map.comments }" var="commentsVo" >
+					<c:if test="${postVo.no == commentsVo.postNo }"	>
+						<c:set var="commentsCount" value="${commentsCount+1}" />
+					</c:if>  			
+	  			</c:forEach>
+	  			
+	      		<tr><td class="postwriter">posted by 관리자 in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail">덧글 ${commentsCount}</a> </td></tr>
+	  			<c:set var="commentsCount" value="0"/>
+	      		<br/>
+	      	</table>
+	      	
+	      	</c:forEach>
+	      	<!--  
 	      	<table height="10" border="0" cellpadding="0" cellspacing="0">
-	      		<tr><td class="posttitle">JavaOne 컨퍼런스가 열립니다.</td></tr>
+	      		<tr><td class="posttitle"><a href="${pageContext.request.contextPath}/blog/blogadmin_detail">JavaOne 컨퍼런스가 열립니다.</a></td></tr>
 	      		<tr><td class="postdate">2006/06/06</td></tr>
 	      		<tr><td class="postcontent"> 6월 27일부터 30일까지 샌프란시스코 모스콘센터에서 2005 JavaOneSM 컨퍼런스가 열립니다. 
 	      		심도깊은 강의와 실생활에서의 혁신, 공상적인 관점에 이르기까지 Java의 강력함을 발견할 수 있습니다. 
 	      		컨퍼런스에 참가하셔서 Java 탄생 10주년을 축하해주세요. 또한, 전세계의 전문가들, 혁신자들과 의견을 
 	      		교환할 수 있는 좋은 기회가 될 것입니다.</td></tr>
 	      		<tr><td height="5">&nbsp;</td></tr>
-	      		<tr><td class="postwriter">posted by 관리자 in J2EE, 덧글 1</td></tr>
+	      		<tr><td class="postwriter">posted by 관리자 in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail">덧글1</a> </td></tr>
 	      	</table>
+	      	-->
 	      	<!-- 포스트 끝-->      	
       	</td>
       	<td width="20">&nbsp;</td>
@@ -49,14 +77,23 @@
       		<tr><td>
       				<a href="${pageContext.request.contextPath}/blog/loginform">로그인</a>&nbsp;&nbsp;
       		</c:if>
+      		
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td><img height="80" src="${pageContext.request.contextPath}/assets/images/j2eelogo.jpg" border="0"></td></tr>
+      		
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td class="categorytitle">카테고리</td></tr>
-      		<tr><td class="categoryitem"><a class="titlㄴe" href="#">자바</a></td></tr>
+      		<c:forEach items="${map.category }" var="categoryVo">
+      			<c:if test="${authUser.id == categoryVo.blogId}">
+      			<tr><td class="categoryitem"><a class="title" href="#">${vo.name}</a></td></tr>
+      			</c:if>
+      		</c:forEach>
+      		<!--  
+      		<tr><td class="categoryitem"><a class="title" href="#">자바</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">J2EE</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">소프트웨어 엔지니어링</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">미분류</a></td></tr>
+      		-->
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td align="center"><img width="80" src="${pageContext.request.contextPath}/assets/images/logo.jpg" border="0"></td></tr>
       	</table>

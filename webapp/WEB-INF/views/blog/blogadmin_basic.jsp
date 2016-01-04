@@ -8,7 +8,7 @@
 </head>
 <body background="${pageContext.request.contextPath}/assets/images/kubrickbgcolor.jpg">
 <center>
-	<table background="images/kubrickheader.jpg"
+	<table background="${pageContext.request.contextPath}/assets/images/kubrickheader.jpg"
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
@@ -16,7 +16,7 @@
       <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
-      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogmain">내 블로그 메인</a>
+      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main">내 블로그 메인</a>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td></tr>
     </table>

@@ -6,6 +6,7 @@ public class PostVo {
 	private String content;
 	private String date;
 	private Long categoryNo;
+	
 	public Long getNo() {
 		return no;
 	}

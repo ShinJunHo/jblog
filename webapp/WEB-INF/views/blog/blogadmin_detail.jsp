@@ -1,14 +1,19 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>JBlog 블로그 메인</title>
-	<Link rel="stylesheet" href="/css/theme.css">
+	<Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css">
 </head>
-<body background="/images/kubrickbgcolor.jpg">
+<body background="${pageContext.request.contextPath}/assets/images/kubrickbgcolor.jpg">
+
 <center>
-	<table background="/images/kubrickheader.jpg"
+	<table background="${pageContext.request.contextPath }/assets/images/kubrickheader.jpg"
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
@@ -17,7 +22,7 @@
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td height="60">&nbsp;</td></tr>
     </table>
-    <table background="/images/kubrickbg.jpg" width="760" height="300" border="0" cellpadding="0" cellspacing="0">
+    <table background="${pageContext.request.contextPath}/assets/images/kubrickbg.jpg" width="760" height="300" border="0" cellpadding="0" cellspacing="0">
       <tr><td height="10">&nbsp;</td></tr>
       <tr>
       	<td width="20">&nbsp;</td>
@@ -31,7 +36,7 @@
 	      		컨퍼런스에 참가하셔서 Java 탄생 10주년을 축하해주세요. 또한, 전세계의 전문가들, 혁신자들과 의견을 
 	      		교환할 수 있는 좋은 기회가 될 것입니다.</td></tr>
 	      		<tr><td height="5">&nbsp;</td></tr>
-	      		<tr><td class="postwriter">posted by 관리자 in J2EE, 덧글 1</td></tr>
+	      		<tr><td class="postwriter">posted by 관리자 in J2EE</td></tr>
 	      		<tr><td height="5">&nbsp;</td></tr>
 	      		<tr><td height="5">
 		      		<!-- 덧글 보여주기 시작 -->
@@ -66,10 +71,19 @@
       	<td width="190" valign="top">
       	<!-- 로그인, 관리자 메뉴, 로고, 카테고리 시작 -->
       	<table cellpadding="0" cellspacing="0">
+      		<c:if test="${not empty authUser}">
       		<tr><td>
-      		<a href="loginform.jsp">로그인</a>&nbsp;&nbsp;<a href="blogadmin_basic.jsp">블로그 관리</a></td></tr>
+      		<a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogadmin_basic.jsp">블로그 관리</a></td></tr>
+      		</c:if>
+			<c:if test="${empty authUser }">
+			<tr><td>
+			<a href="${pageContext.request.contextPath}/blog/loginform">로그인</a>&nbsp;&nbsp;
+			
+			</td></tr>
+			</c:if>      		
+      		
       		<tr><td height="5">&nbsp;</td></tr>
-      		<tr><td><img height="80" src="/images/j2eelogo.jpg" border="0"></td></tr>
+      		<tr><td><img height="80" src="${pageContext.request.contextPath}/assets/images/j2eelogo.jpg" border="0"></td></tr>
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td class="categorytitle">카테고리</td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">자바</a></td></tr>
@@ -77,13 +91,13 @@
       		<tr><td class="categoryitem"><a class="title" href="#">소프트웨어 엔지니어링</a></td></tr>
       		<tr><td class="categoryitem"><a class="title" href="#">미분류</a></td></tr>
       		<tr><td height="5">&nbsp;</td></tr>
-      		<tr><td align="center"><img width="80" src="/images/logo.jpg" border="0"></td></tr>
+      		<tr><td align="center"><img width="80" src="${pageContext.request.contextPath}/assets/images/logo.jpg" border="0"></td></tr>
       	</table>
       	<!-- 로그인, 관리자 메뉴, 로고, 카테고리 끝 -->
       	</td>
       </tr>
     </table>
-    <table background="/images/kubrickfooter.jpg" width="760" height="63" border="0" cellpadding="0" cellspacing="0">
+    <table background="${pageContext.request.contextPath }/assets//images/kubrickfooter.jpg" width="760" height="63" border="0" cellpadding="0" cellspacing="0">
       <tr>
       	<td class="blogfooter">J2EE 이야기 is powered by JBlog</td>
       </tr>
