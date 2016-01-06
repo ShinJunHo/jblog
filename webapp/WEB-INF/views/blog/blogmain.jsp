@@ -21,12 +21,14 @@
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td height="60">&nbsp;</td></tr>
     </table>
-    <input type="text" value="${count}"/>
     <table background="${pageContext.request.contextPath}/assets/images/kubrickbg.jpg" width="760" height="300" border="0" cellpadding="0" cellspacing="0">
       <tr><td height="10">&nbsp;</td></tr>
+      <input type="text" value="${vo.id }">
       <tr>
       	<td width="20">&nbsp;</td>
       	<td width="530" valign="top">
+      	
+      	<!--  UserId에 맞는 Post를 등록해줘야 한다. -->
 	      	<!-- 포스트 시작 -->
 	      	<c:forEach items="${map.post}" var= "postVo">
 	      		
@@ -44,7 +46,7 @@
 					</c:if>  			
 	  			</c:forEach>
 	  			
-	      		<tr><td class="postwriter">posted by 관리자 in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail">덧글 ${commentsCount}</a> </td></tr>
+	      		<tr><td class="postwriter">posted by<h3> ${vo.id}</h3> in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail">덧글 ${commentsCount}</a> </td></tr>
 	  			<c:set var="commentsCount" value="0"/>
 	      		<br/>
 	      	</table>
@@ -85,7 +87,7 @@
       		<tr><td class="categorytitle">카테고리</td></tr>
       		<c:forEach items="${map.category }" var="categoryVo">
       			<c:if test="${authUser.id == categoryVo.blogId}">
-      			<tr><td class="categoryitem"><a class="title" href="#">${vo.name}</a></td></tr>
+      			<tr><td class="categoryitem"><a class="title" href="#">${categoryVo.name}</a></td></tr>
       			</c:if>
       		</c:forEach>
       		<!--  

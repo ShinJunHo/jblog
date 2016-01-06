@@ -1,5 +1,6 @@
 package com.hanains.jblog.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -8,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hanains.jblog.service.BlogService;
+import com.hanains.jblog.vo.BlogVo;
 import com.hanains.jblog.vo.PostVo;
 import com.hanains.jblog.vo.UserVo;
 
@@ -22,15 +26,26 @@ public class BlogController {
 	@Autowired
 	private BlogService blogService;
 	
-	@RequestMapping("/main")
-	public String main(Model model){
-		
+	@RequestMapping("/main/{id}")
+	public String main(@PathVariable("id")String id, Model model){
+		BlogVo vo = blogService.getView(id);
 		Map<String,Object> map = blogService.getList();
-		System.out.println("\nMAP: "+map);
+		model.addAttribute("vo",vo);
 		model.addAttribute("map",map);
-		
-		
 		return "/blog/blogmain";
+	}
+	@RequestMapping("/search")
+	public String blogSearch(@RequestParam(value="keyword",required=true,defaultValue="")String keyword,
+			@RequestParam(value="searchCondition",required=true,defaultValue="") String searchCondition,
+			Model model){
+		System.out.println("keyword: "+keyword);
+		System.out.println("radio: "+searchCondition);
+		List<BlogVo> list = blogService.getBlogList(keyword,searchCondition);
+		
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("list",list);
+		
+		return "/blog/bloguserlist";
 	}
 	
 	@RequestMapping("/blogadmin_basic")

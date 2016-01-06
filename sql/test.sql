@@ -25,6 +25,8 @@ select title, content, reg_date as regDate  from post;
 
 select content, post_no as postNo ,member_id as memberId, reg_date as regDate from comments;
 
+select id, title from blog where title LIKE '%user2%';
+select id, title, status from blog where id = 'user1';
 
 insert into comments values(COMMENTS_SEQ.nextval,'title 2의 세번째 댓글입니다.',2,'user3',sysdate);
 
@@ -33,6 +35,7 @@ select content, post_no as postNo, member_id as memberId, reg_date as regDate fr
 select name, description, reg_date as regDate, blog_id as blogId from category;
 
 select * from category;
+
 select * from blog;
 select * from member;
 select * from post;

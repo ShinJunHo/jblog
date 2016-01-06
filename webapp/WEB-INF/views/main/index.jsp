@@ -11,8 +11,8 @@
 </head>
 <body>
 
-	<form action="#">
-		<table width="100%" height=320 border="0" cellpadding="0" cellspacing="0" text-align="center">
+	<form action="${pageContext.request.contextPath}/blog/search" >
+		<table width="100%" height=320 border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<td height=40 colspan="10">&nbsp;</td>
 			</tr>
@@ -21,7 +21,7 @@
 				<img src="${pageContext.request.contextPath}/assets/images/logo.jpg"
 					border="0"></td>
 			</tr>
-					<p>[[접속상태: ${authUser }]]</p> <br/>
+					<p>[[접속상태: ${authUser }]]</p>
 			<tr>
 				<td width="30%" height="30">&nbsp;</td>
 				<td width="70%" colspan="2">
@@ -34,7 +34,7 @@
 
 						<c:when test="${authUser.role == 'USER' }">
 							<a href="${pageContext.request.contextPath }/user/logout"><b>로그아웃</b></a>&nbsp;&nbsp;
-							<a href="${pageContext.request.contextPath }/blog/main"><b>내 블로그로 가기</b></a>&nbsp;&nbsp;
+							<a href="${pageContext.request.contextPath }/blog/main/${authUser.id}"><b>내 블로그로 가기</b></a>&nbsp;&nbsp;
 						</c:when>
 						<c:otherwise>
 							<a href="${pageContext.request.contextPath}/user/login"><b>로그인</b></a>&nbsp;&nbsp;
@@ -43,16 +43,20 @@
 
 				</td>
 			</tr>
+			
 			<tr>
 				<td width="30%" height="20">&nbsp;</td>
-				<td width="40%"><input type="text" name="searchKeyword" size="50"></td>
-				<td width="30%">&nbsp;<input type="submit" value="검색"></td>
+				<td width="40%">
+						<input type="text" id="keyword" name="keyword" size="50" value="${keyword }">
+						<input type="submit" value="검색">
+				</td>
+				<td width="30%">&nbsp;</td>
 			</tr>
 			<tr>
 				<td height="20" colspan="10" align="center" class="tdcontent">
-					<input type="radio" name="searchCondition" checked>블로그 제목&nbsp;&nbsp;
-					<input type="radio" name="searchCondition">태그&nbsp;&nbsp;
-					<input type="radio" name="searchCondition">블로거
+						<input type="radio" name="searchCondition" checked value="블로그&nbsp;제목">블로그 제목&nbsp;&nbsp;
+						<input type="radio" name="searchCondition" value="태그">태그&nbsp;&nbsp;
+						<input type="radio" name="searchCondition" value="블로거">블로거
 				</td>
 			</tr>
 			<tr>
