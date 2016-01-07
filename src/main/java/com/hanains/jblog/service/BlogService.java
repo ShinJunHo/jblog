@@ -29,10 +29,10 @@ public class BlogService {
 	@Autowired
 	private CategoryDao categoryDao;
 	
-	public Map<String,Object> getList(){
+	public Map<String,Object> getList(String id){
 		
 		Map<String, Object>map= new HashMap<String,Object>();
-		map.put("post", postDao.getList());
+		map.put("post", postDao.getList(id));
 		map.put("comments",commentsDao.getList());
 		map.put("category",categoryDao.getList());
 		

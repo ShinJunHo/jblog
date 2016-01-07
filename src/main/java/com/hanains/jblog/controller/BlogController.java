@@ -26,14 +26,16 @@ public class BlogController {
 	@Autowired
 	private BlogService blogService;
 	
+	//Blog main page
 	@RequestMapping("/main/{id}")
 	public String main(@PathVariable("id")String id, Model model){
 		BlogVo vo = blogService.getView(id);
-		Map<String,Object> map = blogService.getList();
+		Map<String,Object> map = blogService.getList(id);
 		model.addAttribute("vo",vo);
 		model.addAttribute("map",map);
 		return "/blog/blogmain";
 	}
+	
 	@RequestMapping("/search")
 	public String blogSearch(@RequestParam(value="keyword",required=true,defaultValue="")String keyword,
 			@RequestParam(value="searchCondition",required=true,defaultValue="") String searchCondition,
@@ -54,7 +56,10 @@ public class BlogController {
 	}
 	
 	@RequestMapping("/loginform")
-	public String blogLoginform(){
+	public String blogLoginform(@RequestParam(value="hid", required=true, defaultValue="")String id,
+			Model model){
+		System.out.println("hid : "+id);
+		model.addAttribute("id",id);
 		return "/blog/loginform";
 	}
 

@@ -27,7 +27,7 @@ public class PostDao {
 		}
 		return conn;
 	}
-	public List<PostVo> getList(){
+	public List<PostVo> getList(String id){
 		List<PostVo> list =new ArrayList<PostVo>() ;
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -37,11 +37,20 @@ public class PostDao {
 			//1.get Connection
 			conn = getConnection();
 			
-			String sql = "select no,title, content, reg_date as regDate  from post";
+			String sql = "select a.no, a.title, a.content, a.reg_date as regDate "+
+						 "from post a "+ 
+						 "where a.category_no in ( "+ 
+											 		"select b.no "+ 
+											 		"from category b "+ 
+											 		"where b.blog_id = '"+id+"' ) "+ 
+						 "order by a.no desc";
+			System.out.println("::"+sql);
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
+			System.out.println("rs: "+rs.next());
 			while(rs.next()){
 				Long no = rs.getLong(1);
+				System.out.println("no:"+no);
 				String title = rs.getString(2);
 				String content = rs.getString(3);
 				String regDate = rs.getString(4);

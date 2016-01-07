@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hanains.jblog.service.UserService;
 import com.hanains.jblog.vo.UserVo;
@@ -22,18 +23,20 @@ public class UserController {
 
 	@RequestMapping("/login")
 	public String login(){
-		System.out.println("Hello World");
 		return "/user/login";
 	}
 	
 	@RequestMapping("/loginsuccess")
-	public String loginSuccess(HttpSession session, @ModelAttribute UserVo vo){
-		System.out.println("User : "+vo);
-		
+	public String loginSuccess(@RequestParam(value="hid",required=true,defaultValue="")String hid,
+								HttpSession session, 
+								@ModelAttribute UserVo vo){
 		UserVo authUser = userService.login(vo);
-		System.out.println("authUser : "+authUser);
 		session.setAttribute("authUser", authUser);
-		return "redirect:/";
+		if(hid.equals("")){
+			return "redirect:/";
+		}else{
+			return "redirect:/blog/main/"+hid;
+		}
 	}
 	
 	@RequestMapping("/userRegisterForm")

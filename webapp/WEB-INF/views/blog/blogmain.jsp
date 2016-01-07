@@ -77,7 +77,14 @@
       		</c:if>
       		<c:if test="${empty authUser }">
       		<tr><td>
+      			<form action="${pageContext.request.contextPath }/blog/loginform" method="post">
+      				<input type="hidden" name="hid" value="${vo.id}">
+      				<input type="submit" value="로그인">
+      			</form>
+      			<!-- 
       				<a href="${pageContext.request.contextPath}/blog/loginform">로그인</a>&nbsp;&nbsp;
+      				<input type="text" name="hid" value="${vo.id}">
+      				 --> 
       		</c:if>
       		
       		<tr><td height="5">&nbsp;</td></tr>

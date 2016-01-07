@@ -8,6 +8,7 @@
 </head>
 <body>
 	<form action="${pageContext.request.contextPath}/user/loginsuccess" method="post">		
+    	<input type="text" name="hid" value="">
     <table width="100%" height=320 border="0" cellpadding="0" cellspacing="0">
       <tr>
       	<td height=40 colspan="10">&nbsp;</td>
