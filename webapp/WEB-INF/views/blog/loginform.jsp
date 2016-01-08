@@ -4,6 +4,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>loginform.jsp</title>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+	
+	<script type="text/javascript">
+		function redirect(){
+			var url="${pageContext.request.contextPath}/blog/main/${id}";
+			window.location=url;
+		}
+	</script>
+
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/user/loginsuccess">
@@ -28,7 +37,7 @@
       </tr>
        <tr>
       	<td>
-      	passwd :
+      	password :
       	</td>
       	<td>
       	 <input type="password" name="password" size="10">
@@ -39,7 +48,7 @@
       		<input type="submit" value="확인">
       	</td>
       	<td>
-      		<input type="reset" value="취소">
+      		<input type="button" value="취소" onClick="redirect();">
       	</td>
       </tr>
       

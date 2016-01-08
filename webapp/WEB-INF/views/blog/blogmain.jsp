@@ -16,8 +16,8 @@
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
-      <tr>	<td height="60" class="blogtitle">J2EE 이야기</td></tr>
-      <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
+      <tr>	<td height="60" class="blogtitle">${vo.title }</td></tr>
+      <tr>	<td height="20" class="blogtag">${vo.status }</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td height="60">&nbsp;</td></tr>
     </table>
@@ -34,7 +34,7 @@
 	      		
 	      		<table height="10" border="0" cellpadding="0" cellspacing="0">
 	      		<tr><td class="posttitle">${postVo.no }</td></tr>
-	      		<tr><td class="posttitle"><a href="${pageContext.request.contextPath}/blog/blogadmin_detail">${postVo.title}</a></td></tr>
+	      		<tr><td class="posttitle"><a href="${pageContext.request.contextPath}/blog/blogadmin_detail/${postVo.no}">${postVo.title}</a></td></tr>
 	      		<tr><td class="postdate">${postVo.date}</td></tr>
 	      		<tr><td class="postcontent">${ postVo.content}</td></tr>
 	      		<tr><td height="5">&nbsp;</td></tr>
@@ -46,7 +46,10 @@
 					</c:if>  			
 	  			</c:forEach>
 	  			
-	      		<tr><td class="postwriter">posted by<h3> ${vo.id}</h3> in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail">덧글 ${commentsCount}</a> </td></tr>
+	  			<c:if test="${not empty authUser }">
+		      		<tr><td class="postwriter">posted by<h3> ${vo.id}</h3> in J2EE <a href="${pageContext.request.contextPath}/blog/blogadmin_detail/${postVo.no}">덧글 ${commentsCount}</a> </td></tr>
+	  			</c:if>
+	  		
 	  			<c:set var="commentsCount" value="0"/>
 	      		<br/>
 	      	</table>
@@ -92,8 +95,9 @@
       		
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td class="categorytitle">카테고리</td></tr>
+      		<!--  각 회원이 가지고 있는 카테고리들을 뿌려준다. -->
       		<c:forEach items="${map.category }" var="categoryVo">
-      			<c:if test="${authUser.id == categoryVo.blogId}">
+      			<c:if test="${vo.id == categoryVo.blogId}">
       			<tr><td class="categoryitem"><a class="title" href="#">${categoryVo.name}</a></td></tr>
       			</c:if>
       		</c:forEach>

@@ -113,4 +113,38 @@ public class BlogDao {
 			return vo;
 			
 		}
+		
+		public BlogVo getTitleByNo(Long no){
+			BlogVo vo = null;
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try{
+				conn = getConnection();
+				
+				String sql = "select id, title, status from blog where id = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, no);
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					String id =rs.getString(1);
+				}
+			}catch(SQLException ex){
+				System.out.println("SQL Exception ::"+ ex);
+			}finally{
+				try{
+					if( conn != null){
+						conn.close();
+					}
+					if(pstmt != null){
+						pstmt.close();
+					}
+				}catch(SQLException ex){
+					ex.printStackTrace();
+				}
+			}
+			return vo;
+		}
 }

@@ -32,9 +32,10 @@ public class BlogService {
 	public Map<String,Object> getList(String id){
 		
 		Map<String, Object>map= new HashMap<String,Object>();
+		map.put("blog", blogDao.getView(id));
 		map.put("post", postDao.getList(id));
 		map.put("comments",commentsDao.getList());
-		map.put("category",categoryDao.getList());
+		map.put("category",categoryDao.getList(id));
 		
 		return map;
 	}
@@ -48,5 +49,16 @@ public class BlogService {
 	}
 	public void insert(PostVo vo){
 		postDao.insert(vo);
+	}
+	public Map<String,Object> getPostByNo(Long no){
+		Map<String,Object> map =new HashMap<String,Object>();
+		map.put("blog", blogDao.getTitleByNo(no));
+		map.put("post",postDao.getPostByNo(no));
+		map.put("comments", commentsDao.getCommentsByNo(no));
+		System.out.println("comments ::"+commentsDao.getCommentsByNo(no));
+		return map;
+	}
+	public void update(){
+		
 	}
 }

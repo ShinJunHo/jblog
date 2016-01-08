@@ -78,5 +78,53 @@ public class CommentsDao {
 		}
 		return list;
 	}
+	public List<CommentsVo> getCommentsByNo(Long voNo){
+		List<CommentsVo> list = new ArrayList<CommentsVo>();
+		CommentsVo vo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			conn = getConnection();
+			
+			//3.statement 준비
+			String sql ="select content, member_id as memberId, reg_date as regDate "+
+						"from comments where post_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			//4.binding
+			pstmt.setLong(1, voNo);
+			
+			//5.SQL 실행
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				String content = rs.getString(1);
+				String memberId = rs.getString(2);
+				String regDate = rs.getString(3);
+				
+				vo = new CommentsVo();
+				vo.setContent(content);
+				vo.setMemberId(memberId);
+				vo.setRegDate(regDate);
+				list.add(vo);
+			}
+					
+		}catch(SQLException ex){
+			System.out.println("SQL Error :: "+ex);
+		}finally{
+			try{
+				if(conn != null){
+					conn.close();
+				}
+				if(pstmt != null){
+					pstmt.close();
+				}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+		return list;
+	}
 	
 }

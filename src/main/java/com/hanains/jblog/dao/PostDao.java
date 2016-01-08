@@ -117,4 +117,53 @@ public class PostDao {
 			
 		}
 	}
+	public PostVo getPostByNo(Long voNo){
+		PostVo vo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			conn = getConnection();
+			
+			//3.statement 준비
+			String sql ="select no, title, content, reg_date as regDate from post where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			//4.binding
+			pstmt.setLong(1, voNo);
+			
+			//5.SQL 실행
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				Long no = rs.getLong(1);
+				String title = rs.getString(2);
+				String content = rs.getString(3);
+				String regDate = rs.getString(4);
+				
+				vo = new PostVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setDate(regDate);
+				
+			}
+		}catch(SQLException ex){
+			System.out.println("SQL Error ::"+ex );
+		}finally{
+			try{
+			if(pstmt != null){
+				pstmt.close();
+			}
+			if(conn != null){
+				conn.close();
+			}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		return vo;
+	}
 }

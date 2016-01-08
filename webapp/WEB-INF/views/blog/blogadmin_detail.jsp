@@ -27,8 +27,19 @@
       <tr>
       	<td width="20">&nbsp;</td>
       	<td width="530" valign="top">
+      	
 	      	<!-- 포스트 시작 --> 
+	    	<c:set var="postVo" value="${map.post}"/>
 	      	<table height="10" border="0" cellpadding="0" cellspacing="0">
+	      		
+	      		<tr><td class="posttitle">${postVo.title }</td></tr>
+	      		<tr><td class="postdate">${postVo.date }</td></tr>
+	      		<tr><td class="postcontent">${postVo.content }</td></tr>
+	      		<tr><td height="5">&nbsp;</td></tr>
+	      		<tr><td class="postwriter">posted by 관리자 in J2EE</td></tr>
+	      		
+	      		
+	      		<!-- 
 	      		<tr><td class="posttitle">JavaOne 컨퍼런스가 열립니다.</td></tr>
 	      		<tr><td class="postdate">2006/06/06</td></tr>
 	      		<tr><td class="postcontent"> 6월 27일부터 30일까지 샌프란시스코 모스콘센터에서 2005 JavaOneSM 컨퍼런스가 열립니다. 
@@ -37,13 +48,24 @@
 	      		교환할 수 있는 좋은 기회가 될 것입니다.</td></tr>
 	      		<tr><td height="5">&nbsp;</td></tr>
 	      		<tr><td class="postwriter">posted by 관리자 in J2EE</td></tr>
+	      		-->
 	      		<tr><td height="5">&nbsp;</td></tr>
 	      		<tr><td height="5">
 		      		<!-- 덧글 보여주기 시작 -->
+		      		
+		      		<c:forEach items="${map.comments }" var="commentsVo">
+		      		<table height="20" border="0" cellpadding="0" cellspacing="0">
+		      			<tr><td class="tdcontent">commented by ${commentsVo.memberId } at ${commentsVo.regDate }</td></tr>
+		      			<tr><td class="tdcontent">${commentsVo.content }</td></tr>
+		      		</table>
+		      		</c:forEach>
+		      		
+		      		<!--  
 		      		<table height="20" border="0" cellpadding="0" cellspacing="0">
 		      			<tr><td class="tdcontent">commented by 손님 at 2006/06/06</td></tr>
 		      			<tr><td class="tdcontent">안녕하세요. 좋은글 고맙습니다.</td></tr>
 		      		</table>
+		      		-->
 		      		<!-- 덧글 보여주기  끝 -->		      		
 	      		</td></tr>
 	      		<tr><td height="5">

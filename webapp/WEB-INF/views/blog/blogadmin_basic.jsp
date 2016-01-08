@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -16,9 +20,20 @@
       <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
-      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main">내 블로그 메인</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
+      
+      <input type="text" value="${ authUser}">
+
+      <c:if test="${not empty authUser }">
+	      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main/${authUser.id}">내 블로그 메인</a>
+    	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td></tr>
+      </c:if>
+      <c:if test="${empty authUser}">
+      		<a href="${pageContext.request.contextPath}/user/login">로그인</a>&nbsp;&nbsp;
+      		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td></tr>
+      </c:if>
     </table>
     <table background="${pageContext.request.contextPath}/assets/images/kubrickbg.jpg" width="760" height="40" border="0" cellpadding="0" cellspacing="0">
       <tr><td height="10" colspan="10">&nbsp;</td></tr>
@@ -36,7 +51,8 @@
       <tr>
       	<td height="10">&nbsp;</td>
       	<td>
-      	<!-- 작업 화면  시작 -->           	
+      	<!-- 작업 화면  시작 -->
+      	<form action = "${pageContext.request.contextPath}/blog/update" method="post">           	
       	<table width="720"  border="0" cellpadding="0" cellspacing="0">
       		<tr>
       			<td width="150" class="inputlabel">블로그 제목 :</td>
@@ -57,9 +73,12 @@
       		<tr>
       			<td width="150" class="inputlabel">&nbsp;</td>
       			<td><input class="inputtext" type="text" size="40" name="logoFile">
-      			<input type="submit" value="찾아보기"></td>      			
+      			<input type="button" value="찾아보기"></td>
       		</tr>           		
       	</table>
+      			<p style="text-align: center;"><input type="submit" name="update" value="수정"></p> 
+			
+      	</form>
       	<!-- 작업 화면  끝 -->           	      	
       	</td>
       </tr>

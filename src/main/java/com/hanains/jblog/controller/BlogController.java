@@ -26,7 +26,7 @@ public class BlogController {
 	@Autowired
 	private BlogService blogService;
 	
-	//Blog main page
+	// B log main page
 	@RequestMapping("/main/{id}")
 	public String main(@PathVariable("id")String id, Model model){
 		BlogVo vo = blogService.getView(id);
@@ -85,8 +85,23 @@ public class BlogController {
 	public String category(){
 		return "/blog/blogadmin_category";
 	}
-	@RequestMapping("/blogadmin_detail")
-	public String detatil(){
+	
+	@RequestMapping("/blogadmin_detail/{no}")
+	public String detatil(@PathVariable("no")Long no,@ModelAttribute BlogVo vo,Model model){
+		System.out.println("들어오니.");
+		System.out.println("Blog Vo : "+vo);
+		Map<String,Object> map = blogService.getPostByNo(no);
+		model.addAttribute("map",map);
 		return "/blog//blogadmin_detail";
+	}
+	
+	@RequestMapping("/update")
+	public String update(HttpSession session ,@ModelAttribute BlogVo vo,Model model){
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null){
+			return "redirect:/blog/loginform";
+		}
+		blogService.update(vo);
+		return null;
 	}
 }

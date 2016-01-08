@@ -30,7 +30,7 @@ public class CategoryDao {
 		}
 		return conn;
 	}
-	public List<CategoryVo> getList(){
+	public List<CategoryVo> getList(String id){
 		List<CategoryVo> list = new ArrayList<CategoryVo>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -42,7 +42,8 @@ public class CategoryDao {
 			conn = getConnection();
 			
 			//2. prepare statement 
-			String sql ="select name, description, reg_date as regDate, blog_id as blogId from category";
+			String sql ="select name, description, reg_date as regDate, blog_id as blogId from category where blog_id = '"+id+"'";
+			System.out.println("::"+sql);
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -57,7 +58,7 @@ public class CategoryDao {
 				vo.setDescription(desc);
 				vo.setRegDate(regDate);
 				vo.setBlogId(blogId);
-				
+				System.out.println("vo"+vo);
 				list.add(vo);
 			}
 		}catch(SQLException ex){
