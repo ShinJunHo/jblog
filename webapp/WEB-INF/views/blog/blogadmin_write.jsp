@@ -18,7 +18,7 @@
       
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
-      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main">내 블로그 메인</a>
+      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogmain">내 블로그 메인</a>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td></tr>
     </table>

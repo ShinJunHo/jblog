@@ -80,4 +80,85 @@ public class CategoryDao {
 		}
 		return list;
 	}
+	public void addCategory(String id,CategoryVo vo){
+		Connection conn =null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			//1.DB connection
+			conn = getConnection();
+			
+			//2.prepare statement
+			String sql="insert into category values(CATEGORY_SEQ.nextval,?,?,sysdate,?)";
+			//3.statement 준비
+			pstmt = conn.prepareStatement(sql);
+			
+			//4.binding
+			pstmt.setString(1,vo.getName());
+			pstmt.setString(2, vo.getDescription());
+			pstmt.setString(3, id);
+			
+			//5.SQL실행
+			pstmt.executeUpdate();
+			
+		}catch(SQLException ex){
+			System.out.println("SQL Error: "+ex);
+		}finally{
+			try{
+				if(conn != null){
+					conn.close();
+				}
+				if(pstmt != null){
+					pstmt.close();
+				}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+	}
+	public List<CategoryVo> getCategoryById(String id){
+		List<CategoryVo> list = new ArrayList<CategoryVo>();	
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CategoryVo vo = null;
+		try{
+			conn = getConnection();
+			
+			String sql ="select no, name, description, reg_date as regDate from category where blog_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,id);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				String desc = rs.getString(3);
+				String regDate = rs.getString(4);
+				
+				vo = new CategoryVo();
+				vo.setNo(no);
+				vo.setName(name);
+				vo.setDescription(desc);
+				vo.setRegDate(regDate);
+				
+				list.add(vo);
+			}
+		}catch(SQLException ex){
+			System.out.println("SQL Error :"+ex);
+		}finally{
+			try{
+				if(conn != null){
+					conn.close();
+				}
+				if(pstmt != null){
+					pstmt.close();
+				}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+		return list;
+	}
 }

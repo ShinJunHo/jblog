@@ -16,24 +16,25 @@
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
-      <tr>	<td height="60" class="blogtitle">J2EE 이야기</td></tr>
-      <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
+      <tr>	<td height="60" class="blogtitle">${vo.title}</td></tr>
+      <tr>	<td height="20" class="blogtag">${vo.status}</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
       
       
       <input type="text" value="${ authUser}">
 
-      <c:if test="${not empty authUser }">
+      <c:if test="${not empty authUser and authUser.id eq vo.id}">
 	      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main/${authUser.id}">내 블로그 메인</a>
     	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </td></tr>
       </c:if>
+      </td>
+      </tr>
       <c:if test="${empty authUser}">
       		<a href="${pageContext.request.contextPath}/user/login">로그인</a>&nbsp;&nbsp;
       		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </td></tr>
       </c:if>
+      </td></tr>
     </table>
     <table background="${pageContext.request.contextPath}/assets/images/kubrickbg.jpg" width="760" height="40" border="0" cellpadding="0" cellspacing="0">
       <tr><td height="10" colspan="10">&nbsp;</td></tr>
@@ -52,7 +53,8 @@
       	<td height="10">&nbsp;</td>
       	<td>
       	<!-- 작업 화면  시작 -->
-      	<form action = "${pageContext.request.contextPath}/blog/update" method="post">           	
+      	<form action = "${pageContext.request.contextPath}/blog/update" method="post">
+      		<input type="hidden" name="id" value="${vo.id }">          	
       	<table width="720"  border="0" cellpadding="0" cellspacing="0">
       		<tr>
       			<td width="150" class="inputlabel">블로그 제목 :</td>
@@ -60,7 +62,7 @@
       		</tr>
       		<tr>
       			<td width="150" class="inputlabel">블로그 태그 :</td>
-      			<td><input class="inputtext" type="text" size="50" name="tag"></td>
+      			<td><input class="inputtext" type="text" size="50" name="status"></td>
       		</tr>
       		<tr>
       			<td width="150" class="inputlabel">메인페이지 포스트  :</td>

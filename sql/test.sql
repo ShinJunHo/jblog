@@ -53,15 +53,27 @@ select name, description, reg_date as regDate, blog_id as blogId from category;
 select * from category where blog_id = 'user1';
 
 select * from category;
+select no, name, description, reg_date as regDate from category where blog_id = 'user1';
 
 select * from blog;
+
+
+update blog set title=':var1', status=':var2' where id=':var3';
+
+update blog set title='user1의 title test입니다', status='활성 활성 활성' where id='user1';
+update member set id='user6', password='user6' where name='유저5';
 select * from member;
 select * from post;
 select * from comments;
 
 select no, title, content, reg_date as regDate from post where no = 1;
 select content, member_id as memberId, reg_date as regDate from comments where post_no = 1;
+select * from category;
+insert into category values(CATEGORY_SEQ.nextval,'Test','TestCategory',sysdate,'user1');
 
+
+ALTER TABLE WEBDB.BLOG
+   MODIFY (STATUS VARCHAR2 (100));
 
 
 commit;

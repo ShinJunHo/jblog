@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.hanains.jblog.vo.BlogVo;
+import com.hanains.jblog.vo.CategoryVo;
 
 @Repository
 public class BlogDao {
@@ -114,28 +115,34 @@ public class BlogDao {
 			
 		}
 		
-		public BlogVo getTitleByNo(Long no){
-			BlogVo vo = null;
-			Connection conn = null;
+		public void update(BlogVo vo){
+			Connection conn =null;
 			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
 			try{
+				//1.DB connection;
 				conn = getConnection();
+				System.out.println("update Vo"+vo);
+				//2.prepare statement
+				String sql ="update blog set title=?, status=? where id=?";
 				
-				String sql = "select id, title, status from blog where id = ?";
+				//3.statement 준비
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setLong(1, no);
-				rs = pstmt.executeQuery();
-				if(rs.next()){
-					String id =rs.getString(1);
-				}
+				
+				//4.binding
+				pstmt.setString(1,vo.getTitle());
+				pstmt.setString(2, vo.getStatus());
+				pstmt.setString(3, vo.getId());
+
+				
+				//5.SQL 실행
+				pstmt.executeUpdate();
+				
 			}catch(SQLException ex){
-				System.out.println("SQL Exception ::"+ ex);
+				System.out.println("SQL Error :: "+ex);
 			}finally{
 				try{
-					if( conn != null){
+					if(conn != null){
 						conn.close();
 					}
 					if(pstmt != null){
@@ -145,6 +152,7 @@ public class BlogDao {
 					ex.printStackTrace();
 				}
 			}
-			return vo;
 		}
+		
+		
 }

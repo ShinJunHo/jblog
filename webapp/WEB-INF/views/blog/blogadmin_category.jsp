@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -12,12 +16,14 @@
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
-      <tr>	<td height="60" class="blogtitle">J2EE 이야기</td></tr>
-      <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
+      <tr>	<td height="60" class="blogtitle">${vo.title}</td></tr>
+      <tr>	<td height="20" class="blogtag">${vo.status }</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
+      <c:if test="${not empty authUser and authUser.id eq vo.id }">
       <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/blog/main">내 블로그 메인</a>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </c:if>
       </td></tr>
     </table>
     <table background="/images/kubrickbg.jpg" width="760" height="40" border="0" cellpadding="0" cellspacing="0">
@@ -36,8 +42,29 @@
       <tr>
       	<td height="10">&nbsp;</td>
       	<td>
+      	<c:set var="count" value="${fn:length(list)}" />
       	<!-- 작업 화면  시작 -->
-      	<form action="#" method="POST">           	
+      	<table width="720"  border="1" cellpadding="0" cellspacing="0">
+      		<c:forEach items="${list }" var="categoryVo" varStatus="status">
+      		<tr>
+      			<td width="50" class="tablelabel">번호</td>
+      			<td width="150" class="tablelabel">카테고리명</td>
+      		    <!--  <td width="80" class="tablelabel">보이기 유형</td>-->
+      			<td width="70" class="tablelabel">포스트 수</td>
+      			<td width="280" class="tablelabel">설명</td>
+      			<td width="70" class="tablelabel">삭제</td>      			
+      		</tr>
+			<tr>
+				<td class="tablecontent" align="center">${count-status.index}</td>
+				<td class="tablecontent" align="center">${categoryVo.name }</td>
+				<!-- <td class="tablecontent" align="center">${categoryVo.description}</td>-->
+				<td class="tablecontent" align="center">10</td>
+				<td class="tablecontent" align="center">${categoryVo.description }</td>
+				<td class="tablecontent" align="center">&nbsp;<img height="9" src="${pageContext.request.contextPath }/assets/images/delete.jpg" border="0"></td>
+			</tr>  
+			 </c:forEach>			    					
+      	</table>
+      	<!--             	
       	<table width="720"  border="1" cellpadding="0" cellspacing="0">
       		<tr>
       			<td width="50" class="tablelabel">번호</td>
@@ -80,6 +107,8 @@
 				<td class="tablecontent" align="center">&nbsp;<img height="9" src="${pageContext.request.contextPath }/assets/images/delete.jpg" border="0"></td>
 			</tr>  						    					
       	</table>
+      	-->
+      	<form action="${pageContext.request.contextPath}/blog/categoryAdd" method="POST">
       	<table width="720"  border="0" cellpadding="0" cellspacing="0">
       		<tr><td height="5">&nbsp;</td></tr>
       		<tr><td height="5">&nbsp;</td></tr>
@@ -87,14 +116,16 @@
       		<tr><td height="5">&nbsp;</td></tr>      		
       		<tr>
       			<td width="150" class="inputlabel">카테고리명 :</td>
-      			<td><input class="inputtext" type="text" size="40" name="categoryName" value=""></td>
+      			<td><input class="inputtext" type="text" size="40" name="name" value=""></td>
       		</tr>
+      		<!--  
       		<tr>
       			<td width="150" class="inputlabel">보이기 유형 :</td>
       			<td class="tdcontent">
       				<input type="radio" name="displayType" checked>타이틀&nbsp;&nbsp;
       				<input type="radio" name="displayType">텍스트&nbsp;&nbsp;</td>      			
       		</tr>
+      		-->
       		<tr>
       			<td width="150" class="inputlabel">설명 :</td>
       			<td><input class="inputtext" type="text" size="50" name="description" value=""></td>

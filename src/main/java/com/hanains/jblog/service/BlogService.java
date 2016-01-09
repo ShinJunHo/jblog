@@ -12,6 +12,7 @@ import com.hanains.jblog.dao.CategoryDao;
 import com.hanains.jblog.dao.CommentsDao;
 import com.hanains.jblog.dao.PostDao;
 import com.hanains.jblog.vo.BlogVo;
+import com.hanains.jblog.vo.CategoryVo;
 import com.hanains.jblog.vo.PostVo;
 
 @Service
@@ -52,13 +53,19 @@ public class BlogService {
 	}
 	public Map<String,Object> getPostByNo(Long no){
 		Map<String,Object> map =new HashMap<String,Object>();
-		map.put("blog", blogDao.getTitleByNo(no));
 		map.put("post",postDao.getPostByNo(no));
 		map.put("comments", commentsDao.getCommentsByNo(no));
 		System.out.println("comments ::"+commentsDao.getCommentsByNo(no));
 		return map;
 	}
-	public void update(){
+	public void update(BlogVo vo){
+		blogDao.update(vo);
+	}
+	public void addCategory(String id,CategoryVo vo){
+		categoryDao.addCategory(id,vo);
+	}
+	public List<CategoryVo> getCategoryById(String id){
+		return categoryDao.getList(id);
 		
 	}
 }

@@ -17,8 +17,9 @@
 		 width="760" height="200" border="0" cellpadding="0" cellspacing="0">
       <tr>	<td height="60">&nbsp;</td></tr>
       <!-- 블로그 제목과 태그 시작 -->
-      <tr>	<td height="60" class="blogtitle">J2EE 이야기</td></tr>
-      <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
+      <input type="text" value="${vo }">
+      <tr>	<td height="60" class="blogtitle">${vo.title }</td></tr>
+      <tr>	<td height="20" class="blogtag">${vo.status }</td></tr>
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td height="60">&nbsp;</td></tr>
     </table>
@@ -95,7 +96,7 @@
       	<table cellpadding="0" cellspacing="0">
       		<c:if test="${not empty authUser}">
       		<tr><td>
-      		<a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogadmin_basic.jsp">블로그 관리</a></td></tr>
+      		<a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogadmin_basic">블로그 관리</a></td></tr>
       		</c:if>
 			<c:if test="${empty authUser }">
 			<tr><td>

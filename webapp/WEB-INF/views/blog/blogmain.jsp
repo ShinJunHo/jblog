@@ -74,7 +74,7 @@
       	<!-- 로그인, 관리자 메뉴, 로고, 카테고리 시작 -->
       	<table cellpadding="0" cellspacing="0">
 
-	      	<c:if test="${not empty authUser }">
+	      	<c:if test="${not empty authUser and authUser.id eq vo.id }">
    		   		<tr><td>
       				<a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogadmin_basic">블로그 관리</a></td></tr>
       		</c:if>
