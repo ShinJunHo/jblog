@@ -42,18 +42,20 @@ public class CategoryDao {
 			conn = getConnection();
 			
 			//2. prepare statement 
-			String sql ="select name, description, reg_date as regDate, blog_id as blogId from category where blog_id = '"+id+"'";
+			String sql ="select no,name, description, reg_date as regDate, blog_id as blogId from category where blog_id = '"+id+"'";
 			System.out.println("::"+sql);
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()){
-				String name = rs.getString(1);
-				String desc = rs.getString(2);
-				String regDate = rs.getString(3);
-				String blogId = rs.getString(4);
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				String desc = rs.getString(3);
+				String regDate = rs.getString(4);
+				String blogId = rs.getString(5);
 				
 				vo = new CategoryVo();
+				vo.setNo(no);
 				vo.setName(name);
 				vo.setDescription(desc);
 				vo.setRegDate(regDate);
@@ -160,5 +162,62 @@ public class CategoryDao {
 			}
 		}
 		return list;
+	}
+	public void updateCategory(String id ,CategoryVo vo){
+		Connection conn = null;
+		PreparedStatement pstmt=null;
+		
+		try{
+			conn = getConnection();
+			
+			String sql = "update category set name=?, description=? where no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2,vo.getDescription());
+			pstmt.setLong(3, vo.getNo());
+			
+			pstmt.executeUpdate();
+		}catch(SQLException ex){
+			System.out.println("SQL ERROR ::"+ex);
+		}finally{
+			try{
+				if( conn != null){
+					conn.close();
+				}
+				if( pstmt != null ){
+					pstmt.close();
+				}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+	}
+	public void deleteCategory(Long no){
+		Connection conn =null;
+		PreparedStatement pstmt =null;
+		try{
+			conn = getConnection();
+			
+			String sql = "delete from category where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			pstmt.executeUpdate();
+			
+		}catch(SQLException ex){
+			System.out.println("SQL ERROR ::"+ex);
+		}finally{
+			try{
+				if( conn != null){
+					conn.close();
+				}
+				if( pstmt != null ){
+					pstmt.close();
+				}
+			}catch(SQLException ex){
+				ex.printStackTrace();
+			}
+		}
 	}
 }

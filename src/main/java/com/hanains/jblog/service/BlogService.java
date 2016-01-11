@@ -64,8 +64,14 @@ public class BlogService {
 	public void addCategory(String id,CategoryVo vo){
 		categoryDao.addCategory(id,vo);
 	}
+	public void updateCategory(String id, CategoryVo vo){
+		categoryDao.updateCategory(id,vo);
+	}
 	public List<CategoryVo> getCategoryById(String id){
 		return categoryDao.getList(id);
 		
+	}
+	public void deleteCategory(Long no){
+		categoryDao.deleteCategory(no);
 	}
 }

@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -13,12 +17,12 @@
       <tr>	<td height="60">&nbsp;</td></tr>
      
       <!-- 블로그 제목과 태그 시작 -->
-      <tr>	<td height="60" class="blogtitle">J2EE 이야기</td></tr>
-      <tr>	<td height="20" class="blogtag">자바, J2EE, 소프트웨어 엔지니어링</td></tr>
+      <tr>	<td height="60" class="blogtitle">${vo.title }</td></tr>
+      <tr>	<td height="20" class="blogtag">${vo.status }</td></tr>
       
       <!-- 블로그 제목과 태그 끝 -->      
       <tr>	<td align="right" height="60">
-      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/blogmain">내 블로그 메인</a>
+      <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/blog/main/${vo.id}">내 블로그 메인</a>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td></tr>
     </table>
@@ -47,11 +51,10 @@
       			<td width="390"><input class="inputtext" type="text" size="60" name="title"></td>
       			<td width="300">
       			<!--  카테고리 영역. -->
-      			<select class="inputtextarea">
-      				<option>미분류</option>
-      				<option>자바</option>
-      				<option>J2EE</option>
-      				<option>소프트웨어 엔지니어</option>
+      			<select name="categoryNo"class="inputtextarea">
+      			<c:forEach items="${list}" var="category">
+      				<option value="${category.no}">${category.name}</option>
+      			</c:forEach>
       			</select></td>
       		</tr>
       		<tr>

@@ -37,33 +37,32 @@ public class PostDao {
 			//1.get Connection
 			conn = getConnection();
 			
-			String sql = "select a.no, a.title, a.content, a.reg_date as regDate "+
+			String sql = "select a.no, a.title, a.content, a.reg_date as regDate, a.category_no categoryNo "+
 						 "from post a "+ 
 						 "where a.category_no in ( "+ 
 											 		"select b.no "+ 
 											 		"from category b "+ 
 											 		"where b.blog_id = '"+id+"' ) "+ 
 						 "order by a.no desc";
-			System.out.println("::"+sql);
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			System.out.println("rs: "+rs.next());
 			while(rs.next()){
 				Long no = rs.getLong(1);
-				System.out.println("no:"+no);
 				String title = rs.getString(2);
 				String content = rs.getString(3);
 				String regDate = rs.getString(4);
+				Long categoryNo = rs.getLong(5);
 				
 				vo = new PostVo();
 				vo.setNo(no);
 				vo.setTitle(title);
 				vo.setContent(content);
 				vo.setDate(regDate);
-
+				vo.setCategoryNo(categoryNo);
+				
 				list.add(vo);
 			}
-			
+			System.out.println("POST LIST : "+list);
 		}catch(SQLException ex){
 			System.out.println("SQL Error : "+ ex);
 		}finally{
@@ -90,7 +89,7 @@ public class PostDao {
 			conn = getConnection();
 			
 			//2.prepare statement
-			String sql = "insert into post values(POST_SEQ.nextval,?,?,sysdate,1)";
+			String sql = "insert into post values(POST_SEQ.nextval,?,?,sysdate,?)";
 			
 			//3.statement 준비
 			pstmt = conn.prepareStatement(sql);
@@ -98,6 +97,7 @@ public class PostDao {
 			//4.binding
 			pstmt.setString(1,vo.getTitle());
 			pstmt.setString(2,vo.getContent());
+			pstmt.setLong(3, vo.getCategoryNo());
 			//5.SQL 실행
 			pstmt.executeUpdate();
 		}catch(SQLException ex){

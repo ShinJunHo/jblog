@@ -70,28 +70,41 @@ public class BlogController {
 		model.addAttribute("id",id);
 		return "/blog/loginform";
 	}
-
+	
+	//새글을 작성할때.
+	//일반 사용자와 블로그 주인의 비교를 넣어줘야 겠다.
+	
 	@RequestMapping("/blogadmin_write")
-	public String write(){
-		
-		
+	public String write(HttpSession session,Model model){
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if( authUser == null){
+			return "redirect:/blog/loginform";
+		}
+		BlogVo vo = blogService.getView(authUser.getId());
+		List<CategoryVo> list = blogService.getCategoryById(authUser.getId());
+		model.addAttribute("vo",vo);
+		model.addAttribute("list",list);
 		return "/blog/blogadmin_write";
 	}
 	
 	//새글 등록 요청
 	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public String postInsert(HttpSession session,@ModelAttribute PostVo vo, Model model){
+	public String postInsert(HttpSession session,
+							@ModelAttribute PostVo vo,
+							Model model){
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null){
 			return "redirect:/blog/loginform";
 		}
+
+		System.out.println("POST vo:: "+vo);
 		blogService.insert(vo);
-		return "redirect:/blog/main";
+		return "redirect:/blog/main/"+authUser.getId();
 		
 	}
 	//카테고리 등록 요청에서.
 	@RequestMapping("/blogadmin_category")
-	public String category(HttpSession session, Model model){
+	public String category(HttpSession session,Model model){
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null){
 			return "redirect:/blog/loginform";
@@ -107,12 +120,18 @@ public class BlogController {
 	}
 	//
 	@RequestMapping("/categoryAdd")
-	public String categoryAdd(HttpSession session,@ModelAttribute CategoryVo vo){
+	public String categoryAdd(HttpSession session,@RequestParam("tag")String tag,@ModelAttribute CategoryVo vo){
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null){
 			return "redirect:/blog/loginform";
 		}
-		blogService.addCategory(authUser.getId(),vo);
+		if(tag.equals("insert")){
+			System.out.println("TAG INSERT");
+			blogService.addCategory(authUser.getId(),vo);
+		}else if(tag.equals("update")){
+			System.out.println("TAG UPDATE"+vo);
+			blogService.updateCategory(authUser.getId(),vo);
+		}
 		
 		return "redirect:/blog/blogadmin_category";
 	}
@@ -142,5 +161,14 @@ public class BlogController {
 		System.out.println("Controller update::"+vo);
 		blogService.update(vo);
 		return "redirect:/blog/blogadmin_basic";
+	}
+	@RequestMapping("/delete/{no}")
+	public String deleteCategory(HttpSession session,@PathVariable("no")Long no){
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null){
+			return "redirect:/blog/loginform";
+		}
+		blogService.deleteCategory(no);
+		return "redirect:/blog/blogadmin_category";
 	}
 }
