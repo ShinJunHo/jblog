@@ -8,13 +8,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.hanains.jblog.vo.CategoryVo;
 
+import oracle.jdbc.pool.OracleDataSource;
+
 @Repository
 public class CategoryDao {
+	@Autowired
+	private OracleDataSource oracleDatasource;
+	@Autowired
+	private SqlSession sqlSession;
 
+	//AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+	//private OracleDataSource oracleDatasource = ctx.getBean("oracleDatasource", OracleDataSource.class);
+
+	/*
 	private Connection getConnection()throws SQLException{
 		Connection conn= null;
 		try{
@@ -30,6 +44,9 @@ public class CategoryDao {
 		}
 		return conn;
 	}
+	*/
+	
+	
 	public List<CategoryVo> getList(String id){
 		List<CategoryVo> list = new ArrayList<CategoryVo>();
 		Connection conn = null;
@@ -39,7 +56,9 @@ public class CategoryDao {
 		CategoryVo vo = null;
 		try{
 			//1.get Connection
-			conn = getConnection();
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			
 			//2. prepare statement 
 			String sql ="select no,name, description, reg_date as regDate, blog_id as blogId from category where blog_id = '"+id+"'";
@@ -88,8 +107,9 @@ public class CategoryDao {
 		
 		try{
 			//1.DB connection
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			//2.prepare statement
 			String sql="insert into category values(CATEGORY_SEQ.nextval,?,?,sysdate,?)";
 			//3.statement 준비
@@ -125,8 +145,9 @@ public class CategoryDao {
 		ResultSet rs = null;
 		CategoryVo vo = null;
 		try{
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			String sql ="select no, name, description, reg_date as regDate from category where blog_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -168,8 +189,9 @@ public class CategoryDao {
 		PreparedStatement pstmt=null;
 		
 		try{
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			String sql = "update category set name=?, description=? where no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -198,8 +220,9 @@ public class CategoryDao {
 		Connection conn =null;
 		PreparedStatement pstmt =null;
 		try{
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			String sql = "delete from category where no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);

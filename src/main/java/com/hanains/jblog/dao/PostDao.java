@@ -8,11 +8,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.hanains.jblog.vo.PostVo;
+
+import oracle.jdbc.pool.OracleDataSource;
 @Repository
 public class PostDao {
+	@Autowired
+	private OracleDataSource oracleDatasource;
+	@Autowired
+	private SqlSession sqlSession;
+
+	//AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+	//private OracleDataSource oracleDatasource = ctx.getBean("oracleDatasource", OracleDataSource.class);
+	//private SqlSession sqlSession = ctx.getBean("sqlSession", SqlSessionTemplate.class);
+	/*
 	private Connection getConnection()throws SQLException{
 		Connection conn = null;
 		try{
@@ -26,7 +42,8 @@ public class PostDao {
 			System.out.println("드라이버 로딩 실패:"+ex);
 		}
 		return conn;
-	}
+	}*/
+	
 	public List<PostVo> getList(String id){
 		List<PostVo> list =new ArrayList<PostVo>() ;
 		Connection conn =null;
@@ -35,8 +52,10 @@ public class PostDao {
 		PostVo vo = null;
 		try{
 			//1.get Connection
-			conn = getConnection();
-			
+			//conn = getConnection();
+			//mybatis 1단계 getConnection을 없애고 oracle polling datasource
+			conn = oracleDatasource.getConnection();
+
 			String sql = "select a.no, a.title, a.content, a.reg_date as regDate, a.category_no categoryNo "+
 						 "from post a "+ 
 						 "where a.category_no in ( "+ 
@@ -86,8 +105,9 @@ public class PostDao {
 		//UserVo authUser = (UserVo)session.getAttribute("authUser");
 		try{
 			//1.DB connection
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			//2.prepare statement
 			String sql = "insert into post values(POST_SEQ.nextval,?,?,sysdate,?)";
 			
@@ -124,8 +144,9 @@ public class PostDao {
 		ResultSet rs = null;
 		
 		try{
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			//3.statement 준비
 			String sql ="select no, title, content, reg_date as regDate from post where no = ?";
 			pstmt = conn.prepareStatement(sql);

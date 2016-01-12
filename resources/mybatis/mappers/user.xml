@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+ 	<select id="getVoByidAndPassword" resultType="UserVo" parameterType="UserVo">
+ 		<![CDATA[
+ 			select id,password,name,role 
+ 			from member 
+ 			where id = #{id} and password = #{password}
+ 		]]>
+ 	
+ 	</select>
+ 	<insert id="register" parameterType="UserVo">
+ 		<![CDATA[
+ 			insert into member(id,password,name,role,reg_date) values(#{id},#{password},#{name},'USER',sysdate)
+ 		]]>
+ 	</insert>
+ 	<select id="getList" resultType="UserVo" >
+ 		<![CDATA[
+ 			select id,password,name,role,reg_date as regDate from member
+ 		]]>
+ 		
+ 	</select>
+</mapper>
+

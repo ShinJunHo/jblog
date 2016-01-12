@@ -8,15 +8,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.hanains.jblog.vo.BlogVo;
 import com.hanains.jblog.vo.CategoryVo;
 
+import oracle.jdbc.pool.OracleDataSource;
+
 @Repository
 public class BlogDao {
+	@Autowired
+	private OracleDataSource oracleDatasource;
+	@Autowired
+	private SqlSession sqlSession;
 
-		private Connection getConnection()throws SQLException{
+	//AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+	//private OracleDataSource oracleDatasource = ctx.getBean("oracleDatasource", OracleDataSource.class);
+	
+	
+/*
+	
+	private Connection getConnection()throws SQLException{
 			Connection conn = null;
 			try{
 				//1.드라이버 로딩.
@@ -30,15 +46,19 @@ public class BlogDao {
 			}
 			return conn;
 		}
+		*/
 		
-		public List<BlogVo> getBlogList(String keyword,String searchCondition){
+	
+	public List<BlogVo> getBlogList(String keyword,String searchCondition){
 			List<BlogVo> list = new ArrayList<BlogVo>();
 			Connection conn =null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			BlogVo vo = null;
 			try{
-				conn = getConnection();
+				//conn = getConnection();
+				conn = oracleDatasource.getConnection();
+
 				System.out.println(keyword);
 				// keyword 처리를 해줘야겠다.
 				// Condition 처리도.
@@ -79,7 +99,9 @@ public class BlogDao {
 			ResultSet rs = null;
 			
 			try{
-				conn = getConnection();
+				//conn = getConnection();
+				conn = oracleDatasource.getConnection();
+
 				String sql="select id, title, status from blog where id = ?";
 				pstmt= conn.prepareStatement(sql);
 				pstmt.setString(1, voId);
@@ -120,7 +142,9 @@ public class BlogDao {
 			PreparedStatement pstmt = null;
 			try{
 				//1.DB connection;
-				conn = getConnection();
+				//conn = getConnection();
+				conn = oracleDatasource.getConnection();
+
 				System.out.println("update Vo"+vo);
 				//2.prepare statement
 				String sql ="update blog set title=?, status=? where id=?";

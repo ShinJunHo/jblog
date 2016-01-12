@@ -8,12 +8,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.hanains.jblog.vo.CommentsVo;
 
+import oracle.jdbc.pool.OracleDataSource;
+
 @Repository
 public class CommentsDao {
+	@Autowired
+	private OracleDataSource oracleDatasource;
+	@Autowired
+	private SqlSession sqlSession;
+
+	//AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+	//private OracleDataSource oracleDatasource = ctx.getBean("oracleDatasource", OracleDataSource.class);
+
+	/*
 	private Connection getConnection() throws SQLException{
 		Connection conn = null;
 		
@@ -28,7 +43,8 @@ public class CommentsDao {
 			
 		}
 		return conn;
-	}
+	}*/
+	
 	
 	public List<CommentsVo> getList(){
 		List<CommentsVo> list = new ArrayList<CommentsVo>();
@@ -40,7 +56,9 @@ public class CommentsDao {
 		
 		try{
 			//1.get Connection
-			conn = getConnection();
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			//2.prepare statement
 			String sql = "select content, post_no as postNo ,member_id as memberId, reg_date as regDate from comments";
 			pstmt = conn.prepareStatement(sql);
@@ -86,8 +104,9 @@ public class CommentsDao {
 		ResultSet rs = null;
 		
 		try{
-			conn = getConnection();
-			
+			//conn = getConnection();
+			conn = oracleDatasource.getConnection();
+
 			//3.statement 준비
 			String sql ="select content, member_id as memberId, reg_date as regDate "+
 						"from comments where post_no = ?";
