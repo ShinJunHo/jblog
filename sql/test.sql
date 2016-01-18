@@ -1,3 +1,4 @@
+select * from member;
 select id,password,name,role from member where id = 'user1' and password = 'user1';
 select id,password,name,role,reg_date as regDate from member ;
 
