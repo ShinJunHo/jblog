@@ -1,4 +1,5 @@
 select * from member;
+
 select id,password,name,role from member where id = 'user1' and password = 'user1';
 select id,password,name,role,reg_date as regDate from member ;
 
@@ -7,18 +8,21 @@ insert into member(id,password,name,role,reg_date) values('user4','user4','유�
 insert into post values(POST_SEQ.nextval,'제목 테스트1','내용 테스트1',sysdate,'1');
 
 insert into blog values('user1','user1의 블로그입니다.','활성');
-insert into blog values('user4','user4의 블로그입니다.','활성');
-insert into CATEGORY values(CATEGORY_SEQ.nextval,'Java','Programming',sysdate,'user2');
-insert into CATEGORY values(CATEGORY_SEQ.nextval,'C','Programming',sysdate,'user2');
-insert into CATEGORY values(CATEGORY_SEQ.nextval,'C++','Programming',sysdate,'user2');
-insert into CATEGORY values(CATEGORY_SEQ.nextval,'C#','Programming',sysdate,'user2');
-insert into CATEGORY values(CATEGORY_SEQ.nextval,'JavaScript','Programming',sysdate,'user2');
-
-insert into POST values(POST_SEQ.nextval,'user2의 Test Java Title2 입니다.','User2의 TestTitle의 Content입니다.',sysdate,6);
-insert into POST values(POST_SEQ.nextval,'user2의 Test C Title2 입니다.','User2의 TestTitle의 Content입니다.',sysdate,7);
-insert into POST values(POST_SEQ.nextval,'user2의 Test C++ Title2 입니다.','User2의 TestTitle의 Content입니다.',sysdate,8);
-insert into POST values(POST_SEQ.nextval,'user2의 Test C# Title2 입니다.','User2의 TestTitle의 Content입니다.',sysdate,9);
-insert into POST values(POST_SEQ.nextval,'user2의 Test JavaScript Title2 입니다.','User2의 TestTitle의 Content입니다.',sysdate,10);
+insert into blog values('user2','user2의 블로그입니다.','활성');
+insert into blog values('user3','user3의 블로그입니다.','활성');
+commit;
+insert into CATEGORY values(CATEGORY_SEQ.nextval,'Java11','Programming',sysdate,'user1');
+insert into CATEGORY values(CATEGORY_SEQ.nextval,'C11','Programming',sysdate,'user1');
+insert into CATEGORY values(CATEGORY_SEQ.nextval,'C++11','Programming',sysdate,'user1');
+insert into CATEGORY values(CATEGORY_SEQ.nextval,'C#11','Programming',sysdate,'user1');
+insert into CATEGORY values(CATEGORY_SEQ.nextval,'JavaScript11','Programming',sysdate,'user1');
+select * from post;
+select * from category;
+insert into POST values(POST_SEQ.nextval,'user1의 Test Java Title1 입니다.','User1의 TestTitle의 Content입니다.',sysdate,6);
+insert into POST values(POST_SEQ.nextval,'user1의 Test C Title1 입니다.','User1의 TestTitle의 Content입니다.',sysdate,7);
+insert into POST values(POST_SEQ.nextval,'user1의 Test C++ Title1 입니다.','User1의 TestTitle의 Content입니다.',sysdate,8);
+insert into POST values(POST_SEQ.nextval,'user1의 Test C# Title1 입니다.','User1의 TestTitle의 Content입니다.',sysdate,9);
+insert into POST values(POST_SEQ.nextval,'user1의 Test JavaScript Title1 입니다.','User1의 TestTitle의 Content입니다.',sysdate,10);
 
 select no, title, content, reg_date as regDate, category_no as categoryNo from post;
 select no,title, content, reg_date as regDate  from post;

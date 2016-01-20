@@ -14,7 +14,31 @@
 	
 	
 	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
-	<mvc:annotation-driven />
+	<!--  default 로 등록되는게 있다.잭슨은 default 였음. -->
+	<mvc:annotation-driven >
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+		<!-- argument resolver -->
+		<mvc:argument-resolvers>
+			<bean class="com.hanains.jblog.annotation.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
 	
 	
 	<!-- 기본 뷰 리졸버 id와 class는 띄어져야 한다. -->
@@ -26,6 +50,49 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
+	
+	
+	<!--  Interceptors를 추가 한다. 
+		인터셉터.request와 response 의 controller의 앞단과 뒷단에서 처리를 진행 할 때.
+	 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/blog/**"/>
+			<bean class="com.hanains.jblog.interceptor.MyInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/**/"/>
+			<bean class="com.hanains.jblog.interceptor.MyInterceptor2"/>
+		</mvc:interceptor>
+		
+		<!-- AuthLogin Interceptor -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/loginsuccess"/>
+			<bean class="com.hanains.jblog.interceptor.AuthLoginInterceptor"/>
+		</mvc:interceptor>
+		
+		<!-- AuthLogout Interceptor -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout"/>
+			<bean class="com.hanains.jblog.interceptor.AuthLogoutInterceptor"/>
+		</mvc:interceptor>
+		
+		<!--  Annotation(@Auth) 와 @AuthUser 를 등록하기 위해  만들고 그것들을 처리하기 위한 Interceptor를 정의
+			또한 모든 경로에 Interceptor를 선언하는건 비 효율적이므로 모든 경로에서를 받아들이고, 예외를 지정.
+		-->
+		
+		
+		<!-- css & image는 위험하니까. -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="com.hanains.jblog.interceptor.AuthInterceptor"/>
+		</mvc:interceptor>
+		
+		
+	</mvc:interceptors>
+	
 	
 	
 	<context:annotation-config />

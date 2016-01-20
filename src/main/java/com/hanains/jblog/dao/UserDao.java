@@ -96,6 +96,12 @@ public class UserDao {
 		return vo;
 	}
 */
+	
+	public UserVo getUserById(String id){
+		UserVo vo =sqlSession.selectOne("user.getUserById",id);
+		return vo;
+	}
+	
 	public void register(UserVo vo){
 		sqlSession.insert("user.register",vo);
 		

@@ -30,4 +30,10 @@ public class UserService {
 		List<UserVo> list = userDao.getList();
 		return list;
 	}
+	public UserVo getUserById(String id){
+		
+		UserVo vo =userDao.getUserById(id);
+		
+		return vo;
+	}
 }

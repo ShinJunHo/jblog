@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="post">
+ <select id="getList" resultType="PostVo" parameterType="String">
+ 		<![CDATA[
+		 	select a.no, a.title, a.content, a.reg_date as regDate, a.category_no categoryNo
+			from post a
+			where a.category_no in( select b.no 
+									from category b 
+									where b.blog_id = #{id} 
+									)
+			order by a.no desc
+		 ]]>
+ </select>
  
+ <select id="getPostByNo" resultType="PostVo" parameterType="long">
+		<![CDATA[
+ 			select no, title, content, reg_date as regDate from post where no = #{no}
+		
+		]]>
+ </select>
+ 
+ <insert id="insert" parameterType="PostVo" >
+ <![CDATA[
+ 	insert into post values(POST_SEQ.nextval,#{title},#{content},sysdate,#{categoryNo})
+ ]]>
+ </insert>
 </mapper>
 

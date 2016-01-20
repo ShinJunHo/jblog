@@ -10,10 +10,14 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  
+  <!--  Listener를 등록함. Web.xml은 처음 로딩되고나서 등록을 하는거니깐. -->
    <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener> 
   
+  <!--  Listener를 등록함. Web.xml은 처음 로딩되고나서 등록을 하는거니깐.
+  	이 파일을 읽어드리겠다. -->
   
   <context-param>
     <param-name>contextConfigLocation</param-name>

@@ -43,7 +43,11 @@ public class PostDao {
 		}
 		return conn;
 	}*/
-	
+	public List<PostVo> getList(String id){
+		List<PostVo> list =sqlSession.selectList("post.getList",id); 
+		return list;
+	}
+	/*
 	public List<PostVo> getList(String id){
 		List<PostVo> list =new ArrayList<PostVo>() ;
 		Connection conn =null;
@@ -97,7 +101,11 @@ public class PostDao {
 			}
 		}
 		return list;
+	}*/
+	public void insert(PostVo vo){
+		sqlSession.insert("post.insert",vo);
 	}
+	/*
 	public void insert(PostVo vo){
 		Connection conn =null ;
 		PreparedStatement pstmt = null;
@@ -136,7 +144,12 @@ public class PostDao {
 			}
 			
 		}
+	}*/
+	public PostVo getPostByNo(Long voNo){
+		PostVo vo = sqlSession.selectOne("post.getPostByNo",voNo);
+		return vo;
 	}
+	/*
 	public PostVo getPostByNo(Long voNo){
 		PostVo vo = null;
 		Connection conn = null;
@@ -186,5 +199,8 @@ public class PostDao {
 		}
 		
 		return vo;
+	}*/
+	public void empty(){
+		
 	}
 }

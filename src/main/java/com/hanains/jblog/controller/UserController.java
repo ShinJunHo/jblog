@@ -26,6 +26,8 @@ public class UserController {
 		return "/user/login";
 	}
 	
+	/*
+	 * AuthLoginInterceptor에서 처리.
 	@RequestMapping("/loginsuccess")
 	public String loginSuccess(@RequestParam(value="hid",required=true,defaultValue="")String hid,
 								HttpSession session, 
@@ -37,7 +39,19 @@ public class UserController {
 		}else{
 			return "redirect:/blog/main/"+hid;
 		}
-	}
+	}*/
+	
+	/*
+	 * AuthLogoutInterceptor에서 처리.
+	 * 
+	@RequestMapping("/logout")
+	public String logout(HttpSession session){
+		session.removeAttribute("authUser");
+		session.invalidate();
+		return "redirect:/";
+		
+	}*/
+
 	
 	@RequestMapping("/userRegisterForm")
 	public String registerForm(){
@@ -58,13 +72,5 @@ public class UserController {
 		return "/user/userlist";
 	}
 	
-	
-	@RequestMapping("/logout")
-	public String logout(HttpSession session){
-		session.removeAttribute("authUser");
-		session.invalidate();
-		return "redirect:/";
 		
-	}
-	
 }
