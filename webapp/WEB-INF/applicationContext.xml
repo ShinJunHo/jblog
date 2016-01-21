@@ -15,6 +15,8 @@
     http://www.springframework.org/schema/task
     http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
+	
+	
 	<context:annotation-config />
 
 	<!-- applicationContext와 spring-servlet에 두군데 설정해준다. 언제 어디서 호출될지 모르니깐. -->
@@ -52,4 +54,7 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
+	
+	<aop:aspectj-autoproxy />
+	
 </beans> 
